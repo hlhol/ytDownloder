@@ -14,8 +14,8 @@ for video_url in playlist.video_urls:
     # Create a YouTube object for the video
     youtube = pytube.YouTube(video_url);
 
-    # Select the 480 resolution stream
-    stream = youtube.streams.get_by_resolution(480);
+    # Select the high resolution stream
+    stream = youtube.streams.get_highest_resolution();
 
     # Download the stream
     print(f"Downloading {youtube.title}...");  #youtube.title is to get vedio title and print it.
