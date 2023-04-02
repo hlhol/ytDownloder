@@ -1,38 +1,33 @@
-import pytube;
+import pytube
 
-print("Enter  1 to download playlist and enter 2 to download playlist");
+#You can edit the path of folder, but don't edit the r before path.
+folder = r"write your folder path "
 
-num = input('enter your choise: ');
+#Ask user to choose what to download
+choice = input("Enter '1' to download a single video or '2' to download a playlist: ")
 
-if num == 1:
-    #you can edit the path of folder, but don't edit the r before path.
-    folder = r"write your folder path ";
+#If choice is 1, download a single video
+if choice == '1':
+    link = input("Enter video URL: ")
+    yt = pytube.YouTube(link)
+    stream = yt.streams.get_by_resolution(480)
+    print(f"Downloading {yt.title}...")
+    downloaded_file = stream.download()
+    if downloaded_file:
+    print(f"{yt.title} downloaded successfully!\n")
+    else:
+        print(f"Failed to download {yt.title}\n")
 
-    # Set the URL of the playlist to download by input
-    playlist_url = input("enter url: ");
-
-    # Create a Playlist object using the pytube library
-    playlist = pytube.Playlist(playlist_url);
-
-    # Loop through each video in the playlist and download it
-    for video_url in playlist.video_urls:
-        # Create a YouTube object for the video
-        youtube = pytube.YouTube(video_url);
-
-        # Select the high resolution stream
-        stream = youtube.streams.get_highest_resolution();
-
-        # Download the stream
-        print(f"Downloading {youtube.title}...");  #youtube.title is to get vedio title and print it.
-        stream.download(folder); #add spacific location to downloded vedio.
-        print(f"{youtube.title} downloaded successfully!\n") #print dwnload 
-
-elif num == 2:
-    yt = pytube.YouTube(link);
-
-    print(f"Downloading {youtube.title}...");
-    stream = yt.streams.get_by_resolution(480).download();
-    print(f"{youtube.title} downloaded successfully!\n") #print dwnload 
-
-
-    print("download done")
+#If choice is 2, download a playlist
+elif choice == '2':
+playlist_url = input("Enter playlist URL: ")
+playlist = pytube.Playlist(playlist_url)
+for video_url in playlist.video_urls:
+    youtube = pytube.YouTube(video_url)
+    stream = youtube.streams.get_highest_resolution()
+    print(f"Downloading {youtube.title}...")
+    downloaded_file = stream.download(folder)
+    if downloaded_file:
+        print(f"{youtube.title} downloaded successfully!\n")
+    else:
+        print(f"Failed to download {youtube.title}\n");
